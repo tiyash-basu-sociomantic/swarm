@@ -55,12 +55,13 @@ public class Client
 
         struct Internals
         {
-            import integrationtest.neo.client.request.internal.GetAll;
-            import integrationtest.neo.client.request.internal.Get;
-            import integrationtest.neo.client.request.internal.Put;
-            import integrationtest.neo.client.request.internal.Put;
-            import integrationtest.neo.client.request.internal.DoublePut;
-            import integrationtest.neo.client.request.internal.RoundRobinPut;
+            public import integrationtest.neo.client.request.internal.GetAll;
+            public import integrationtest.neo.client.request.internal.Get;
+            public import integrationtest.neo.client.request.internal.Put;
+            public import integrationtest.neo.client.request.internal.Put;
+            public import integrationtest.neo.client.request.internal.DoublePut;
+            public import
+                integrationtest.neo.client.request.internal.RoundRobinPut;
         }
 
         /// Instantiation of ClientCore.

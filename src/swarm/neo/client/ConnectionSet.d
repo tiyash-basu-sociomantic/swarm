@@ -31,7 +31,7 @@ public final class ConnectionSet : RequestOnConn.IConnectionGetter
     import ocean.core.ExceptionDefinitions;
     import ocean.core.SmartUnion;
 
-    import swarm.neo.client.Connection;
+    public import swarm.neo.client.Connection;
     import swarm.neo.client.RequestSet;
     import swarm.neo.client.NotifierTypes;
     import swarm.neo.connection.YieldedRequestOnConns;
