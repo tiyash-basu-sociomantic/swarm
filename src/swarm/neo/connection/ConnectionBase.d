@@ -1003,7 +1003,7 @@ abstract class ConnectionBase: ISelectClient
         Params:
             e          = the exception reflecting the error
             request_id = the id of the request whose handler calls this method
-                         and should not receive a shutdown notification or 0 if 
+                         and should not receive a shutdown notification or 0 if
                          not calling from a request handler
 
         In:

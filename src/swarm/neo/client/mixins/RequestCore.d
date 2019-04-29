@@ -74,12 +74,12 @@ public static struct SerializableReferenceType ( Type )
 
     void set ( Type val )
     {
-        this.serialized[] = (cast(ubyte*)&val)[0..val.sizeof];
+        (&this).serialized[] = (cast(ubyte*)&val)[0..val.sizeof];
     }
 
     Type get ( )
     {
-        return *(cast(Type*)this.serialized.ptr);
+        return *(cast(Type*)(&this).serialized.ptr);
     }
 }
 

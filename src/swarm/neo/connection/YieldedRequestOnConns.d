@@ -175,7 +175,7 @@ class YieldedRequestOnConns: ISelectEvent
 
         public bool is_empty ( )
         {
-            return this.queue[this.active].is_empty;
+            return (&this).queue[(&this).active].is_empty;
         }
 
         /***********************************************************************
@@ -196,7 +196,7 @@ class YieldedRequestOnConns: ISelectEvent
 
         public bool push ( IYieldedRequestOnConn roc )
         {
-            return this.queue[this.active].push(roc);
+            return (&this).queue[(&this).active].push(roc);
         }
 
         /***********************************************************************
@@ -213,19 +213,19 @@ class YieldedRequestOnConns: ISelectEvent
         public void swapAndPop ( scope void delegate ( IYieldedRequestOnConn popped_roc ) dg )
         out
         {
-            assert(this.queue[!this.active].is_empty, typeof(this).stringof ~
+            assert((&this).queue[!(&this).active].is_empty, typeof((&this)).stringof ~
                    ".swapAndPop: " ~
                    "Expected the inactive queue to be empty when returning");
         }
         body
         {
-            verify(this.queue[!this.active].is_empty, typeof(this).stringof ~
+            verify((&this).queue[!(&this).active].is_empty, typeof((&this)).stringof ~
                    ".swapAndPop: " ~
                    "Expected the inactive queue to be empty when called");
 
-            this.active = !this.active;
+            (&this).active = !(&this).active;
 
-            foreach (roc; this.queue[!this.active])
+            foreach (roc; (&this).queue[!(&this).active])
                 dg(roc);
         }
 
@@ -245,8 +245,8 @@ class YieldedRequestOnConns: ISelectEvent
 
         public bool remove ( IYieldedRequestOnConn roc )
         {
-            this.queue[!this.active].remove(roc);
-            return this.queue[this.active].remove(roc);
+            (&this).queue[!(&this).active].remove(roc);
+            return (&this).queue[(&this).active].remove(roc);
         }
     }
 }

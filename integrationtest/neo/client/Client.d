@@ -527,7 +527,7 @@ public class Client
                 void internalNotifier ( Neo.GetAll.Notification info,
                     Const!(Neo.GetAll.Args) args )
                 {
-                    this.notifier(info, args);
+                    (&this).notifier(info, args);
 
                     with ( info.Active ) switch ( info.active )
                     {
@@ -552,7 +552,7 @@ public class Client
                         task.resume();
                 }
 
-                this.neo.getAll(&internalNotifier);
+                (&this).neo.getAll(&internalNotifier);
                 if ( !rq_finished )
                     task.suspend();
 

@@ -376,7 +376,7 @@ template ClientCore ( )
                 scope int delegate ( ref IOStats sender, ref IOStats receiver ) dg )
             {
                 int res;
-                foreach ( conn; this.connections )
+                foreach ( conn; (&this).connections )
                 {
                     auto sender_stats = conn.getIOStats(true);
                     auto receiver_stats = conn.getIOStats(false);
@@ -399,7 +399,7 @@ template ClientCore ( )
                     ref IOStats receiver ) dg )
             {
                 int res;
-                foreach ( conn; this.connections )
+                foreach ( conn; (&this).connections )
                 {
                     auto sender_stats = conn.getIOStats(true);
                     auto receiver_stats = conn.getIOStats(false);
@@ -445,7 +445,7 @@ template ClientCore ( )
             public int opApply ( scope int delegate ( ref TreeQueueStats ) dg )
             {
                 int res;
-                foreach ( conn; this.connections )
+                foreach ( conn; (&this).connections )
                 {
                     auto queue_stats = conn.getSendQueueStats();
                     res = dg(queue_stats);
@@ -466,7 +466,7 @@ template ClientCore ( )
                 ref TreeQueueStats ) dg )
             {
                 int res;
-                foreach ( conn; this.connections )
+                foreach ( conn; (&this).connections )
                 {
                     auto queue_stats = conn.getSendQueueStats();
                     auto addr = conn.remote_address;
@@ -683,10 +683,10 @@ template ClientCore ( )
                     static assert(is(typeof(rq_name) : istring));
 
                     auto slice = rq_name[];
-                    if ( !this.occurred_only ||
-                        this.outer.requestHasOccurred!(rq_name) )
+                    if ( !(&this).occurred_only ||
+                        (&this).outer.requestHasOccurred!(rq_name) )
                     {
-                        auto stats = this.outer.request!(rq_name)();
+                        auto stats = (&this).outer.request!(rq_name)();
                         res = dg(slice, stats);
                         if ( res )
                             break;
