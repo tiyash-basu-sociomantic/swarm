@@ -67,8 +67,6 @@ import ocean.core.MessageFiber;
 
 import ocean.core.Traits : FieldName;
 
-import ocean.core.Traits : ctfe_i2a;
-
 import ocean.core.Verify;
 
 import ocean.io.model.IConduit: ISelectable;
