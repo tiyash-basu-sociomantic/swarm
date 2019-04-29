@@ -29,7 +29,7 @@ module swarm.common.request.model.IRequestResources;
 *******************************************************************************/
 
 import ocean.core.Traits : FieldType;
-import ocean.core.Traits : isDynamicArrayType;
+import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 import ocean.transition;
 
 
@@ -47,7 +47,7 @@ import ocean.transition;
 
 public template GetterReturnType ( T, size_t i )
 {
-    static if ( isDynamicArrayType!(FieldType!(T, i)) )
+    static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
     {
         alias FieldType!(T, i)* GetterReturnType;
     }
@@ -182,8 +182,8 @@ public template RequestResources_T ( Shared )
     ***************************************************************************/
 
     import ocean.core.Traits : FieldType, FieldName;
+    import ocean.meta.traits.Basic : isArrayType;
     import ocean.transition;
-    import ocean.core.Traits : isDynamicArrayType;
 
 
     /***************************************************************************
@@ -201,7 +201,7 @@ public template RequestResources_T ( Shared )
 
     template GetterReturnValue ( T, size_t i )
     {
-        static if ( isDynamicArrayType!(FieldType!(T, i)) )
+        static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
         {
             static immutable istring GetterReturnValue =
                 "&this.acquired." ~ FieldName!(i, T) ~ ";";
@@ -319,7 +319,7 @@ public template RequestResources_T ( Shared )
 
     template Initialiser ( T, size_t i )
     {
-        static if ( isDynamicArrayType!(FieldType!(T, i)) )
+        static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
         {
             static immutable istring Initialiser =
                 "protected void " ~

@@ -30,6 +30,7 @@ import ocean.transition;
 import ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.io.compress.Lzo;
+import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 
 /*******************************************************************************
 
@@ -218,7 +219,7 @@ public struct BatchWriter ( Record ... )
 
     private size_t sizeOfField ( Field ) ( Field field )
     {
-        static if ( isDynamicArrayType!(Field) )
+        static if ( isArrayType!(Field) == ArrayKind.Dynamic )
             return size_t.sizeof +
                 (field.length * ElementTypeOfArray!(Field).sizeof);
         else
@@ -237,7 +238,7 @@ public struct BatchWriter ( Record ... )
 
     private void addField ( Field ) ( Field field )
     {
-        static if ( isDynamicArrayType!(Field) )
+        static if ( isArrayType!(Field) == ArrayKind.Dynamic )
         {
             auto len = field.length;
             this.addBytes((cast(void*)&len)[0 .. size_t.sizeof]);
@@ -376,7 +377,7 @@ public scope class BatchReader ( Record ... )
 
     private void extractField ( Field ) ( ref Field field )
     {
-        static if ( isDynamicArrayType!(Field) )
+        static if ( isArrayType!(Field) == ArrayKind.Dynamic )
         {
             auto len = this.extractBytes(size_t.sizeof);
             field = cast(Field)this.extractBytes(*(cast(size_t*)len.ptr));
@@ -430,7 +431,7 @@ private bool recordFieldsSupported ( Record ... ) ( )
 {
     foreach ( Field; Record )
     {
-        static if ( isDynamicArrayType!(Field) )
+        static if ( isArrayType!(Field) == ArrayKind.Dynamic )
         {
             static if ( hasIndirections!(ElementTypeOfArray!(Field)) )
                 return false;

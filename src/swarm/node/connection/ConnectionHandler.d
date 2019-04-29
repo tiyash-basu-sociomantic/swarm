@@ -81,8 +81,6 @@ import core.sys.posix.netinet.in_: SOL_SOCKET, IPPROTO_TCP, SO_KEEPALIVE;
 
 debug ( ConnectionHandler ) import ocean.io.Stdout;
 
-import ocean.core.Traits : isArrayType;
-
 import ocean.util.log.Logger;
 
 /*******************************************************************************
@@ -163,6 +161,7 @@ public abstract class ConnectionHandlerTemplate ( Commands : ICommandCodes )
     : ISwarmConnectionHandler
 {
     import ocean.time.StopWatch;
+    import ocean.meta.traits.Basic : isArrayType;
 
     /***************************************************************************
 

@@ -37,6 +37,7 @@ module swarm.neo.util.StructPacker;
 import ocean.transition;
 import ocean.core.Traits;
 import ocean.core.Verify;
+import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 
 /*******************************************************************************
 
@@ -115,7 +116,7 @@ private void packStructDynamicArrays ( S ) ( ref S s, ref void[] buf )
     foreach ( ref f; s.tupleof )
     {
         // Pack dynamic array fields of S.
-        static if ( isDynamicArrayType!(typeof(f)) )
+        static if ( isArrayType!(typeof(f)) == ArrayKind.Dynamic )
             packDynamicArray(f, buf);
         // Recursively pack dynamic arrays in struct fields of S.
         else static if ( ContainsDynamicArray!(typeof(f)) )
@@ -152,7 +153,7 @@ private void packDynamicArray ( A ) ( ref A[] array, ref void[] buf )
     array = cast(A[])buf[start..$];
 
     // Recursively pack arrays of arrays.
-    static if (isDynamicArrayType!(A))
+    static if (isArrayType!(A) == ArrayKind.Dynamic)
     {
         foreach ( ref e; array )
             packDynamicArray(e, buf);
@@ -309,7 +310,7 @@ private void checkPackable ( S ) ( )
     foreach ( i, F; typeof(S.tupleof) )
     {
         // Arrays are allowed, if...
-        static if ( isDynamicArrayType!(F) )
+        static if ( isArrayType!(F) == ArrayKind.Dynamic )
         {
             // ...they only contain primitive types. (This prevents pointers
             // from becoming misaligned when the array contents are copied to
@@ -318,7 +319,7 @@ private void checkPackable ( S ) ( )
         }
 
         // Static arrays are allowed, if...
-        static if ( isStaticArrayType!(F) )
+        static if ( isArrayType!(F) == ArrayKind.Static )
         {
             // ...they don't contain dynamic arrays.
             static assert(!ContainsDynamicArray!(F));
