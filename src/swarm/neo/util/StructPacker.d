@@ -38,6 +38,7 @@ import ocean.transition;
 import ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
+import ocean.meta.traits.Indirections : containsDynamicArray;
 
 /*******************************************************************************
 
@@ -119,7 +120,7 @@ private void packStructDynamicArrays ( S ) ( ref S s, ref void[] buf )
         static if ( isArrayType!(typeof(f)) == ArrayKind.Dynamic )
             packDynamicArray(f, buf);
         // Recursively pack dynamic arrays in struct fields of S.
-        else static if ( ContainsDynamicArray!(typeof(f)) )
+        else static if ( containsDynamicArray!(typeof(f)) )
             packStructDynamicArrays(f, buf);
     }
 }
@@ -322,7 +323,7 @@ private void checkPackable ( S ) ( )
         static if ( isArrayType!(F) == ArrayKind.Static )
         {
             // ...they don't contain dynamic arrays.
-            static assert(!ContainsDynamicArray!(F));
+            static assert(!containsDynamicArray!(F));
         }
 
         // Structs are allowed, if...
@@ -336,7 +337,7 @@ private void checkPackable ( S ) ( )
         static if ( is (F == union) )
         {
             // ...they don't contain dynamic arrays.
-            static assert(!ContainsDynamicArray!(F));
+            static assert(!containsDynamicArray!(F));
         }
     }
 }
