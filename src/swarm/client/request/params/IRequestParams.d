@@ -93,7 +93,6 @@ public abstract class IRequestParams
     protected alias .OutputStream OutputStream;
     protected alias .SimpleStreamSerializer SimpleStreamSerializer;
     protected alias .copyFields copyFields;
-    protected alias .SizeofTuple SizeofTuple;
 
 
     /***************************************************************************
