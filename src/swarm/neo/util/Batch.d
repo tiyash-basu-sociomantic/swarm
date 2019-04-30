@@ -31,6 +31,7 @@ import ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.io.compress.Lzo;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
+import ocean.meta.types.Arrays : ElementTypeOf;
 
 /*******************************************************************************
 
@@ -221,7 +222,7 @@ public struct BatchWriter ( Record ... )
     {
         static if ( isArrayType!(Field) == ArrayKind.Dynamic )
             return size_t.sizeof +
-                (field.length * ElementTypeOfArray!(Field).sizeof);
+                (field.length * ElementTypeOf!(Field).sizeof);
         else
             return Field.sizeof;
     }
@@ -433,7 +434,7 @@ private bool recordFieldsSupported ( Record ... ) ( )
     {
         static if ( isArrayType!(Field) == ArrayKind.Dynamic )
         {
-            static if ( hasIndirections!(ElementTypeOfArray!(Field)) )
+            static if ( hasIndirections!(ElementTypeOf!(Field)) )
                 return false;
         }
         else
