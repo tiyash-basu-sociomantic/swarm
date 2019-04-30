@@ -39,6 +39,7 @@ import ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 import ocean.meta.traits.Indirections : containsDynamicArray;
+import ocean.meta.types.Arrays : StripAllArrays;
 
 /*******************************************************************************
 
@@ -143,7 +144,7 @@ private void packStructDynamicArrays ( S ) ( ref S s, ref void[] buf )
 
 private void packDynamicArray ( A ) ( ref A[] array, ref void[] buf )
 {
-    static assert(isPrimitiveType!(BaseTypeOfArrays!(A)));
+    static assert(isPrimitiveType!(StripAllArrays!(A)));
 
     // Append the array content to the buffer.
     auto start = buf.length;
@@ -316,7 +317,7 @@ private void checkPackable ( S ) ( )
             // ...they only contain primitive types. (This prevents pointers
             // from becoming misaligned when the array contents are copied to
             // the end of the packing buffer.)
-            static assert(isPrimitiveType!(BaseTypeOfArrays!(F)));
+            static assert(isPrimitiveType!(StripAllArrays!(F)));
         }
 
         // Static arrays are allowed, if...
