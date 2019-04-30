@@ -28,7 +28,6 @@ module swarm.common.request.model.IRequestResources;
 
 *******************************************************************************/
 
-import ocean.core.Traits : FieldType;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 import ocean.transition;
 
@@ -47,13 +46,13 @@ import ocean.transition;
 
 public template GetterReturnType ( T, size_t i )
 {
-    static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
+    static if ( isArrayType!(typeof(T.tupleof[i])) == ArrayKind.Dynamic )
     {
-        alias FieldType!(T, i)* GetterReturnType;
+        alias typeof(T.tupleof[i])* GetterReturnType;
     }
     else
     {
-        alias FieldType!(T, i) GetterReturnType;
+        alias typeof(T.tupleof[i]) GetterReturnType;
     }
 }
 
@@ -88,7 +87,7 @@ public template IRequestResources_T ( Shared )
     ***************************************************************************/
 
     import ocean.transition;
-    import ocean.core.Traits : FieldType, FieldName;
+    import ocean.core.Traits : FieldName;
 
 
     /***************************************************************************
@@ -181,7 +180,7 @@ public template RequestResources_T ( Shared )
 
     ***************************************************************************/
 
-    import ocean.core.Traits : FieldType, FieldName;
+    import ocean.core.Traits : FieldName;
     import ocean.meta.traits.Basic : isArrayType;
     import ocean.transition;
 
@@ -201,7 +200,7 @@ public template RequestResources_T ( Shared )
 
     template GetterReturnValue ( T, size_t i )
     {
-        static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
+        static if ( isArrayType!(typeof(T.tupleof[i])) == ArrayKind.Dynamic )
         {
             static immutable istring GetterReturnValue =
                 "&this.acquired." ~ FieldName!(i, T) ~ ";";
@@ -279,7 +278,7 @@ public template RequestResources_T ( Shared )
 
     template Newer ( T, size_t i )
     {
-        static immutable istring Newer = "protected abstract " ~ FieldType!(T, i).stringof ~ " " ~
+        static immutable istring Newer = "protected abstract " ~ typeof(T.tupleof[i]).stringof ~ " " ~
             "new_" ~ FieldName!(i, T) ~ "();";
     }
 
@@ -319,18 +318,18 @@ public template RequestResources_T ( Shared )
 
     template Initialiser ( T, size_t i )
     {
-        static if ( isArrayType!(FieldType!(T, i)) == ArrayKind.Dynamic )
+        static if ( isArrayType!(typeof(T.tupleof[i])) == ArrayKind.Dynamic )
         {
             static immutable istring Initialiser =
                 "protected void " ~
-                "init_" ~ FieldName!(i, T) ~ "(ref " ~ FieldType!(T, i).stringof ~ " f)" ~
+                "init_" ~ FieldName!(i, T) ~ "(ref " ~ typeof(T.tupleof[i]).stringof ~ " f)" ~
                 "{f.length=0; enableStomping(f);}";
         }
         else
         {
             static immutable istring Initialiser =
                 "protected void " ~
-                "init_" ~ FieldName!(i, T) ~ "(" ~ FieldType!(T, i).stringof ~ "){}";
+                "init_" ~ FieldName!(i, T) ~ "(" ~ typeof(T.tupleof[i]).stringof ~ "){}";
         }
     }
 
