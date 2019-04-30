@@ -35,10 +35,9 @@
 module swarm.neo.util.StructPacker;
 
 import ocean.transition;
-import Traits = ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType, isPrimitiveType;
-import ocean.meta.traits.Indirections : containsDynamicArray;
+import ocean.meta.traits.Indirections : hasIndirections, containsDynamicArray;
 import ocean.meta.types.Arrays : StripAllArrays;
 
 /*******************************************************************************
@@ -161,7 +160,7 @@ private void packDynamicArray ( A ) ( ref A[] array, ref void[] buf )
             packDynamicArray(e, buf);
     }
     else
-        static assert(!Traits.hasIndirections!(A));
+        static assert(!hasIndirections!(A));
 }
 
 version ( UnitTest )

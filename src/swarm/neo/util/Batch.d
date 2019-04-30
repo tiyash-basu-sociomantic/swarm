@@ -27,10 +27,10 @@
 module swarm.neo.util.Batch;
 
 import ocean.transition;
-import ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.io.compress.Lzo;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
+import ocean.meta.traits.Indirections : hasIndirections;
 import ocean.meta.types.Arrays : ElementTypeOf;
 
 /*******************************************************************************
