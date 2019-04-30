@@ -35,7 +35,7 @@ public template RequestParamsSetup ( )
     ***************************************************************************/
 
     import ocean.transition;
-    import ocean.core.Traits : FieldName, hasMember;
+    import ocean.meta.codegen.Identifier : identifier;
     import swarm.client.request.params.IRequestParams;
 
     mixin TypeofThis;
@@ -57,7 +57,7 @@ public template RequestParamsSetup ( )
     {
         foreach ( i, f; typeof(this.tupleof) )
         {
-            mixin("this.setup_" ~ FieldName!(i, This) ~ "(params);");
+            mixin("this.setup_" ~ identifier!(This.tupleof[i]) ~ "(params);");
         }
     }
 }
