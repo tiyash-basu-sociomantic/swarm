@@ -35,7 +35,7 @@
 module swarm.neo.util.StructPacker;
 
 import ocean.transition;
-import ocean.core.Traits;
+import Traits = ocean.core.Traits;
 import ocean.core.Verify;
 import ocean.meta.traits.Basic : ArrayKind, isArrayType;
 import ocean.meta.traits.Indirections : containsDynamicArray;
@@ -144,7 +144,7 @@ private void packStructDynamicArrays ( S ) ( ref S s, ref void[] buf )
 
 private void packDynamicArray ( A ) ( ref A[] array, ref void[] buf )
 {
-    static assert(isPrimitiveType!(StripAllArrays!(A)));
+    static assert(Traits.isPrimitiveType!(StripAllArrays!(A)));
 
     // Append the array content to the buffer.
     auto start = buf.length;
@@ -161,7 +161,7 @@ private void packDynamicArray ( A ) ( ref A[] array, ref void[] buf )
             packDynamicArray(e, buf);
     }
     else
-        static assert(!hasIndirections!(A));
+        static assert(!Traits.hasIndirections!(A));
 }
 
 version ( UnitTest )
@@ -317,7 +317,7 @@ private void checkPackable ( S ) ( )
             // ...they only contain primitive types. (This prevents pointers
             // from becoming misaligned when the array contents are copied to
             // the end of the packing buffer.)
-            static assert(isPrimitiveType!(StripAllArrays!(F)));
+            static assert(Traits.isPrimitiveType!(StripAllArrays!(F)));
         }
 
         // Static arrays are allowed, if...
