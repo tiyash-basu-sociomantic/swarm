@@ -401,7 +401,7 @@ version ( UnitTest )
 
     class TestLogger
     {
-        import ocean.core.Traits : hasMethod;
+        import ocean.meta.traits.Aggregates : hasMethod;
         import ocean.text.convert.Formatter;
 
         mstring output;
