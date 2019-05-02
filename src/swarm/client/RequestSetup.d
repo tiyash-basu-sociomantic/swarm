@@ -15,8 +15,6 @@
 
 module swarm.client.RequestSetup;
 
-import ocean.core.Traits;
-
 import swarm.client.request.params.IChannelRequestParams;
 
 /*******************************************************************************
@@ -654,6 +652,7 @@ public template Suspendable ( )
     import ocean.transition;
     import ocean.core.Verify;
     import ocean.core.TypeConvert : downcast;
+    import ocean.meta.traits.Aggregates : hasMember;
     import swarm.client.request.params.IRequestParams;
 
     mixin TypeofThis;
