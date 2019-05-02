@@ -65,8 +65,6 @@ import ocean.io.select.client.FiberSelectEvent;
 
 import ocean.core.MessageFiber;
 
-import ocean.core.Traits : FieldName;
-
 import ocean.core.Verify;
 
 import ocean.io.model.IConduit: ISelectable;

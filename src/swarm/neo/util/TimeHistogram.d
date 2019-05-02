@@ -26,7 +26,6 @@ import ocean.core.Verify;
 struct TimeHistogram
 {
     import ocean.transition;
-    import ocean.core.Traits : FieldName;
 
     /***************************************************************************
 
