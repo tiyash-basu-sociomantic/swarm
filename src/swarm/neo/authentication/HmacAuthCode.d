@@ -109,10 +109,7 @@ struct HmacAuthCode
     import cstdio = core.stdc.stdio: fprintf, stderr;
     import core.stdc.stdlib: exit, EXIT_FAILURE;
 
-    version (D_Version2)
-        mixin("shared static this ( ) { staticCtor(); }");
-    else
-        static this ( ) { staticCtor(); }
+    shared static this ( ) { staticCtor(); }
 
     // static ctor body separated out due to different ctor def in D1 vs D2
     private static void staticCtor ( )
