@@ -383,10 +383,6 @@ private class MessageReceiverBase
     ***************************************************************************/
 
     private void ensureMinimumAmountOfBytesInBuffer ( size_t bytes_requested, lazy Event wait )
-    in
-    {
-        assert(this); // invariant
-    }
     out
     {
         assert(bytes_requested <= this.buffer_content_end);
@@ -394,6 +390,8 @@ private class MessageReceiverBase
     }
     body
     {
+        verify(this !is null);
+
         if (this.buffer_content_end < bytes_requested)
         {
             if (this.buffer.length < bytes_requested)
@@ -515,16 +513,14 @@ class MessageReceiver: MessageReceiverBase
      **************************************************************************/
 
     override protected size_t read ( Event events = Event.EPOLLIN )
-    in
-    {
-        assert(this);
-    }
     out
     {
         assert(this);
     }
     body
     {
+        verify(this !is null);
+
         verify((events & events.EPOLLIN) != 0,
                typeof(this).stringof ~ ".write: called without EPOLLIN event");
         verify(this.buffer_content_end < this.buffer.length, "requested to receive nothing");
