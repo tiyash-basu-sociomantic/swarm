@@ -398,12 +398,6 @@ public class RequestStats
         ***********************************************************************/
 
         public void requestStarted ( )
-        out
-        {
-            assert(this.counters.active > 0);
-            assert(this.counters.active <= this.counters.max_active);
-        }
-        body
         {
             this.counters.active++;
 
@@ -411,6 +405,9 @@ public class RequestStats
             {
                 this.counters.max_active = this.counters.active;
             }
+
+            verify(this.counters.active > 0);
+            verify(this.counters.active <= this.counters.max_active);
         }
 
 

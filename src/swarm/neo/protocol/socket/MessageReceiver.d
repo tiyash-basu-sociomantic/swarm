@@ -145,12 +145,12 @@ private class MessageReceiverBase
     ***************************************************************************/
 
     public ubyte receiveProtocolVersion ( lazy Event wait )
-    out
     {
-        assert(!this.buffer_content_end);
-    }
-    body
-    {
+        scope (exit)
+        {
+            verify(!this.buffer_content_end);
+        }
+
         verify(!this.buffer_content_end);
 
         this.ensureMinimumAmountOfBytesInBuffer(ubyte.sizeof, wait);
@@ -383,12 +383,6 @@ private class MessageReceiverBase
     ***************************************************************************/
 
     private void ensureMinimumAmountOfBytesInBuffer ( size_t bytes_requested, lazy Event wait )
-    out
-    {
-        assert(bytes_requested <= this.buffer_content_end);
-        assert(this); // invariant
-    }
-    body
     {
         verify(this !is null);
 
@@ -405,6 +399,9 @@ private class MessageReceiverBase
                 this.read(wait);
             }
         }
+
+        verify(bytes_requested <= this.buffer_content_end);
+        verify(this !is null);
     }
 
     /**************************************************************************
@@ -513,12 +510,12 @@ class MessageReceiver: MessageReceiverBase
      **************************************************************************/
 
     override protected size_t read ( Event events = Event.EPOLLIN )
-    out
     {
-        assert(this);
-    }
-    body
-    {
+        scope (exit)
+        {
+            verify(this !is null);
+        }
+
         verify(this !is null);
 
         verify((events & events.EPOLLIN) != 0,
@@ -539,6 +536,7 @@ class MessageReceiver: MessageReceiverBase
 
             this.buffer_content_end += n;
             this.io_stats.socket.countBytes(n);
+
             return n;
         }
         else
@@ -654,11 +652,6 @@ unittest
 
         // Populates `dst` with one message, `id` is the serial message id.
         static void makeMsg ( void[] dst, uint id )
-        out
-        {
-            checkMsgBody(dst[MessageHeader.sizeof .. $], id);
-        }
-        body
         {
             verify(dst.length >= MessageHeader.sizeof + Info.sizeof);
 
@@ -680,6 +673,8 @@ unittest
             }
 
             msg_body[] = cast(Const!(void)[])magic[0 .. msg_body.length];
+
+            checkMsgBody(dst[MessageHeader.sizeof .. $], id);
         }
 
         // Checks if a message body is valid: `id` and `msg_body.length` should

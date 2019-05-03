@@ -211,13 +211,6 @@ class YieldedRequestOnConns: ISelectEvent
         ***********************************************************************/
 
         public void swapAndPop ( scope void delegate ( IYieldedRequestOnConn popped_roc ) dg )
-        out
-        {
-            assert(this.queue[!this.active].is_empty, typeof(this).stringof ~
-                   ".swapAndPop: " ~
-                   "Expected the inactive queue to be empty when returning");
-        }
-        body
         {
             verify(this.queue[!this.active].is_empty, typeof(this).stringof ~
                    ".swapAndPop: " ~
@@ -227,6 +220,10 @@ class YieldedRequestOnConns: ISelectEvent
 
             foreach (roc; this.queue[!this.active])
                 dg(roc);
+
+            verify(this.queue[!this.active].is_empty, typeof(this).stringof ~
+                   ".swapAndPop: " ~
+                   "Expected the inactive queue to be empty when returning");
         }
 
         /***********************************************************************

@@ -828,11 +828,6 @@ public struct RequestEventDispatcher
     ***************************************************************************/
 
     private void dispatchQueuedSignals ( RequestOnConnBase.EventDispatcher conn )
-    out
-    {
-        assert(this.queued_signals.length == 0);
-    }
-    body
     {
         while ( this.queued_signals.length > 0 )
         {
@@ -849,6 +844,8 @@ public struct RequestEventDispatcher
 
             this.dispatchSignal(conn, code);
         }
+
+        verify(this.queued_signals.length == 0);
     }
 
     /***************************************************************************

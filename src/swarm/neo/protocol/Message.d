@@ -79,6 +79,7 @@ enum MessageType: ubyte
 align(1) struct MessageHeader
 {
     import swarm.neo.protocol.ProtocolError;
+    import ocean.core.Verify;
 
     align(1):
 
@@ -132,13 +133,11 @@ align(1) struct MessageHeader
     ***************************************************************************/
 
     ubyte setParity ( )
-    out
     {
-        assert(!this.total_parity);
-    }
-    body
-    {
-        return this.parity = this.calcParity();
+        this.parity = this.calcParity();
+
+        verify(!this.total_parity);
+        return this.parity;
     }
 
     /***************************************************************************

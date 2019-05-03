@@ -36,6 +36,8 @@ import swarm.client.registry.DisablableNodeSet;
 
 import swarm.Const : NodeItem;
 
+import ocean.core.Verify;
+
 debug ( SwarmClient ) import ocean.io.Stdout;
 
 import ocean.transition;
@@ -95,13 +97,11 @@ public class FluidNodeRegistry : NodeRegistry, IFluidNodeRegistry
     ***************************************************************************/
 
     override public void remove ( mstring address, ushort port )
-    out
-    {
-        assert(!this.inRegistry(address, port), "node in registry after remove()");
-    }
-    body
     {
         this.nodes.remove(NodeItem(address, port));
+
+        verify(!this.inRegistry(address, port),
+            "node in registry after remove()");
     }
 
 
@@ -121,16 +121,14 @@ public class FluidNodeRegistry : NodeRegistry, IFluidNodeRegistry
     ***************************************************************************/
 
     override public void disable ( mstring address, ushort port )
-    out
-    {
-        assert(!this.inRegistry(address, port), "node in registry after disable()");
-    }
-    body
     {
         debug ( SwarmClient ) Stderr.formatln("Disabling {}:{}", address, port);
 
         auto disablable_nodes = cast(DisablableNodeSet)this.nodes;
         disablable_nodes.disable(NodeItem(address, port));
+
+        verify(!this.inRegistry(address, port),
+            "node in registry after disable()");
     }
 
 
@@ -149,16 +147,14 @@ public class FluidNodeRegistry : NodeRegistry, IFluidNodeRegistry
     ***************************************************************************/
 
     override public void enable ( mstring address, ushort port )
-    out
-    {
-        assert(this.inRegistry(address, port), "node not in registry after enable()");
-    }
-    body
     {
         debug ( SwarmClient ) Stderr.formatln("Enabling {}:{}", address, port);
 
         auto disablable_nodes = cast(DisablableNodeSet)this.nodes;
         disablable_nodes.enable(NodeItem(address, port));
+
+        assert(this.inRegistry(address, port),
+            "node not in registry after enable()");
     }
 
 

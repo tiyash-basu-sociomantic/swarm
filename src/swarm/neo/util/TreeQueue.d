@@ -382,12 +382,12 @@ private struct TreeQueueCore
     ***************************************************************************/
 
     public bool push ( ulong id, bool startwatch = true )
-    out
     {
-        assert(!this.ebtree.is_empty, "ebtree empty after push");
-    }
-    body
-    {
+        scope (exit)
+        {
+            assert(!this.ebtree.is_empty, "ebtree empty after push");
+        }
+
         bool added;
         auto item = this.ebtree.put(id, added);
 
