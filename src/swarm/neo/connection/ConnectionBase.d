@@ -357,11 +357,6 @@ abstract class ConnectionBase: ISelectClient
         ***********************************************************************/
 
         private void loop ( )
-        out
-        {
-            assert(false);
-        }
-        body
         {
             this.loop_started = true;
             scope (exit)
@@ -385,6 +380,8 @@ abstract class ConnectionBase: ISelectClient
                 this.suspend();
                 this.idle = false;
             }
+
+            assert(false, "Infinite loop terminated.");
         }
 
         /***********************************************************************

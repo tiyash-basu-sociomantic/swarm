@@ -196,11 +196,6 @@ class MessageSender
      **************************************************************************/
 
     public void finishSending ( lazy Event wait )
-    out
-    {
-        assert(!this.pending_data.length);
-    }
-    body
     {
         verify(this.pending_data.length > 0, typeof(this).stringof ~
                ".finishSending: no message to send");
@@ -212,6 +207,8 @@ class MessageSender
         {
             this.pending_data.length = 0;
             enableStomping(this.pending_data);
+
+            verify(this.pending_data.length == 0);
         }
 
         do

@@ -16,6 +16,7 @@ struct FiberTokenHashGenerator
 {
     import swarm.neo.util.MessageFiber;
     import core.stdc.stdlib: rand;
+    import ocean.core.Verify;
 
 // static assert(RAND_MAX == int.max);
 
@@ -47,19 +48,19 @@ struct FiberTokenHashGenerator
     ***************************************************************************/
 
     MessageFiber.Token create ( bool receive = false )
-    out
     {
-        if (receive)
+        scope (exit)
         {
-            assert(this.receiving);
+            if (receive)
+            {
+                verify(this.receiving);
+            }
+            else
+            {
+                verify(!this.receiving);
+            }
         }
-        else
-        {
-            assert(!this.receiving);
-        }
-    }
-    body
-    {
+
         this.hash = rand();
 
         if (receive)

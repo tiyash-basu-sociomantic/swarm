@@ -604,17 +604,14 @@ public final class RequestSet: IRequestSet
         ***********************************************************************/
 
         private void reset ( )
-        out
-        {
-            assert(this); // invariant
-        }
-        body
         {
             this.id = 0;
             this.request_on_conns.reset(&this.outer.request_on_conn_pool.recycle);
             this.finished_notifier = null;
             this.context.length = 0;
             enableStomping(this.context);
+
+            verify (this !is null);
         }
     }
 
@@ -921,12 +918,12 @@ public final class RequestSet: IRequestSet
     ***************************************************************************/
 
     public bool abortRequest ( RequestId id, RequestOnConn.AbortReason reason )
-    out
     {
-        assert((id in this.active_requests) is null);
-    }
-    body
-    {
+        scope (exit)
+        {
+            verify((id in this.active_requests) is null);
+        }
+
         if ( auto rq = id in this.active_requests )
         {
             rq.abortSuspendedHandlers(reason);
