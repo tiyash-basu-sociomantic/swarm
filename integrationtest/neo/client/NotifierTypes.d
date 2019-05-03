@@ -50,6 +50,6 @@ public struct RequestKeyDataInfo
     {
             sformat(sink,
             "Request #{} provided the key {} and the value {}",
-            (&this).request_id, (&this).key, (&this).value);
+            this.request_id, this.key, this.value);
     }
 }

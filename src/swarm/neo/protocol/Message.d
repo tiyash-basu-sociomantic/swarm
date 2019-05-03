@@ -134,11 +134,11 @@ align(1) struct MessageHeader
     ubyte setParity ( )
     out
     {
-        assert(!(&this).total_parity);
+        assert(!this.total_parity);
     }
     body
     {
-        return (&this).parity = (&this).calcParity();
+        return this.parity = this.calcParity();
     }
 
     /***************************************************************************
@@ -151,7 +151,7 @@ align(1) struct MessageHeader
 
     ubyte total_parity ( ) const
     {
-        return (&this).calcParity((&this).parity);
+        return this.calcParity(this.parity);
     }
 
     /***************************************************************************
@@ -170,11 +170,11 @@ align(1) struct MessageHeader
 
     ubyte calcParity ( ubyte parity_in = 0 ) const
     {
-        ulong a = (&this).body_length,
+        ulong a = this.body_length,
               b = cast(uint)  (a ^ (a >>> (uint.sizeof   * 8))),
               c = cast(ushort)(b ^ (b >>> (ushort.sizeof * 8)));
 
-        return cast(ubyte)(c ^ (c >>> (ubyte.sizeof  * 8))) ^ (&this).type ^ parity_in;
+        return cast(ubyte)(c ^ (c >>> (ubyte.sizeof  * 8))) ^ this.type ^ parity_in;
     }
 
     /***************************************************************************
@@ -194,22 +194,22 @@ align(1) struct MessageHeader
 
     public void validate ( ProtocolError e ) const
     {
-        e.enforce(!(&this).total_parity, "message header data parity fault");
+        e.enforce(!this.total_parity, "message header data parity fault");
 
-        switch ((&this).type)
+        switch (this.type)
         {
             case type.Request:
-                e.enforceFmt((&this).body_length >= RequestId.sizeof, "Request " ~
+                e.enforceFmt(this.body_length >= RequestId.sizeof, "Request " ~
                     "message body too short to contain a request id (length " ~
-                    "= {}, minimum is {})", (&this).body_length, RequestId.sizeof);
+                    "= {}, minimum is {})", this.body_length, RequestId.sizeof);
                 break;
             case type.Authentication:
-                e.enforceFmt((&this).body_length <= (&this).max_auth_body_length,
+                e.enforceFmt(this.body_length <= this.max_auth_body_length,
                     "Authentication message body too long (length = {}, " ~
-                    "maximum is {})", (&this).body_length, (&this).max_auth_body_length);
+                    "maximum is {})", this.body_length, this.max_auth_body_length);
                 break;
             default:
-                throw e.setFmt("invalid message type {}", (&this).type);
+                throw e.setFmt("invalid message type {}", this.type);
         }
     }
 
@@ -221,7 +221,7 @@ align(1) struct MessageHeader
 
     import ocean.core.Traits : SizeofTuple;
 
-    static assert(SizeofTuple!(typeof(typeof(*(&this)).tupleof)) == typeof(*(&this)).sizeof);
+    static assert(SizeofTuple!(typeof(typeof(this).tupleof)) == typeof(this).sizeof);
 }
 
 /*******************************************************************************

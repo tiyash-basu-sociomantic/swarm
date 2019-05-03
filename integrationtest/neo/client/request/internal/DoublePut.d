@@ -89,8 +89,8 @@ public struct DoublePut
         public size_t nextNodeIndex ( )
         {
             scope ( exit )
-                (&this).next_node_index++;
-            return (&this).next_node_index;
+                this.next_node_index++;
+            return this.next_node_index;
         }
     }
 

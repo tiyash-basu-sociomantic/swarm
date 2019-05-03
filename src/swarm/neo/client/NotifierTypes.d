@@ -46,7 +46,7 @@ public struct NodeInfo
     {
         sformat(sink,
             "Node {}:{}",
-            (&this).node_addr.address_bytes, (&this).node_addr.port);
+            this.node_addr.address_bytes, this.node_addr.port);
     }
 }
 
@@ -81,7 +81,7 @@ public struct RequestNodeInfo
         sformat(
             sink,
             "Request #{}, node {}:{}",
-            (&this).request_id, (&this).node_addr.address_bytes, (&this).node_addr.port);
+            this.request_id, this.node_addr.address_bytes, this.node_addr.port);
     }
 }
 
@@ -125,8 +125,8 @@ public struct RequestNodeUnsupportedInfo
         sformat(
             sink,
             "Request #{}, node {}:{} reported that the {} is not supported",
-            (&this).request_id, (&this).node_addr.address_bytes, (&this).node_addr.port,
-            (&this).type_explanation);
+            this.request_id, this.node_addr.address_bytes, this.node_addr.port,
+            this.type_explanation);
     }
 
     /***************************************************************************
@@ -138,7 +138,7 @@ public struct RequestNodeUnsupportedInfo
 
     private istring type_explanation ( )
     {
-        with ( Type ) final switch ( (&this).type )
+        with ( Type ) final switch ( this.type )
         {
             case RequestNotSupported:
                 return "request";
@@ -178,20 +178,20 @@ public struct NodeExceptionInfo
 
     public void toString ( scope void delegate ( cstring chunk ) sink )
     {
-        if ( (&this).e !is null )
+        if ( this.e !is null )
         {
             sformat(sink,
                 "Exception '{}' @ {}:{} occurred in the client while handling the " ~
                 "request on node {}:{}",
-                (&this).e.message(), (&this).e.file, (&this).e.line,
-                (&this).node_addr.address_bytes, (&this).node_addr.port);
+                this.e.message(), this.e.file, this.e.line,
+                this.node_addr.address_bytes, this.node_addr.port);
         }
         else
         {
             sformat(sink,
                 "An undefined error (null Exception) occurred in the client " ~
                 "while handling the request on node {}:{}",
-                (&this).node_addr.address_bytes, (&this).node_addr.port);
+                this.node_addr.address_bytes, this.node_addr.port);
         }
     }
 }
@@ -227,21 +227,21 @@ public struct RequestNodeExceptionInfo
 
     public void toString ( scope void delegate ( cstring chunk ) sink )
     {
-        if ( (&this).e !is null )
+        if ( this.e !is null )
         {
             sformat(sink,
                 "Exception '{}' @ {}:{} occurred in the client while handling " ~
                 "request #{} on node {}:{}",
-                (&this).e.message(), (&this).e.file, (&this).e.line, (&this).request_id,
-                (&this).node_addr.address_bytes, (&this).node_addr.port);
+                this.e.message(), this.e.file, this.e.line, this.request_id,
+                this.node_addr.address_bytes, this.node_addr.port);
         }
         else
         {
             sformat(sink,
                 "An undefined error (null Exception) occurred in the client " ~
                 "while handling request #{} on node {}:{}",
-                (&this).request_id, (&this).node_addr.address_bytes,
-                (&this).node_addr.port);
+                this.request_id, this.node_addr.address_bytes,
+                this.node_addr.port);
         }
     }
 }
@@ -279,7 +279,7 @@ public struct RequestDataInfo
     {
         sformat(sink,
             "Request #{} provided the value {}",
-            (&this).request_id, (&this).value);
+            this.request_id, this.value);
     }
 }
 
@@ -332,6 +332,6 @@ public struct RequestInfo
     {
         sformat(sink,
             "Request #{}",
-            (&this).request_id);
+            this.request_id);
     }
 }
