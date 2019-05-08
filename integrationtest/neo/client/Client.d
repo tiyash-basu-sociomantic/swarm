@@ -41,11 +41,11 @@ public class Client
 
         ***********************************************************************/
 
-        import Get = integrationtest.neo.client.request.Get;
-        import GetAll = integrationtest.neo.client.request.GetAll;
-        import Put = integrationtest.neo.client.request.Put;
-        import DoublePut = integrationtest.neo.client.request.DoublePut;
-        import RoundRobinPut = integrationtest.neo.client.request.RoundRobinPut;
+        public import Get = integrationtest.neo.client.request.Get;
+        public import GetAll = integrationtest.neo.client.request.GetAll;
+        public import Put = integrationtest.neo.client.request.Put;
+        public import DoublePut = integrationtest.neo.client.request.DoublePut;
+        public import RoundRobinPut = integrationtest.neo.client.request.RoundRobinPut;
 
         /***********************************************************************
 
@@ -53,15 +53,19 @@ public class Client
 
         ***********************************************************************/
 
-        struct Internals
+        private struct Internals
         {
-            import integrationtest.neo.client.request.internal.GetAll;
-            import integrationtest.neo.client.request.internal.Get;
-            import integrationtest.neo.client.request.internal.Put;
-            import integrationtest.neo.client.request.internal.Put;
-            import integrationtest.neo.client.request.internal.DoublePut;
-            import
-                integrationtest.neo.client.request.internal.RoundRobinPut;
+            public import integrationtest.neo.client.request.internal.GetAll
+                : GetAll;
+            public import integrationtest.neo.client.request.internal.Get
+                : Get, VersionedGet;
+            public import integrationtest.neo.client.request.internal.Put
+                : Put;
+            public import integrationtest.neo.client.request.internal.DoublePut
+                : DoublePut;
+            public import
+                integrationtest.neo.client.request.internal.RoundRobinPut
+                : RoundRobinPut;
         }
 
         /// Instantiation of ClientCore.

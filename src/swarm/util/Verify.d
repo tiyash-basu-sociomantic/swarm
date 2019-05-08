@@ -19,7 +19,7 @@ module swarm.util.Verify;
 import ocean.core.VersionCheck;
 
 static if (hasFeaturesFrom!("ocean", 3, 4))
-    import ocean.core.Verify;
+    public import ocean.core.Verify : verify;
 else:
 
 import ocean.transition;

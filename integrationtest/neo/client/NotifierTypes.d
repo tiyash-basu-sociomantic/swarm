@@ -14,7 +14,6 @@
 
 module integrationtest.neo.client.NotifierTypes;
 
-import swarm.neo.client.NotifierTypes;
 import ocean.text.convert.Formatter;
 
 /*******************************************************************************
