@@ -482,7 +482,7 @@ version (UnitTest)
     // to avoid clashing of mixed in names from different module tests
     struct LocalNamespace
     {
-        public import swarm.common.connection.ISharedResources;
+        import swarm.common.connection.ISharedResources;
         // ISharedResources module has a version (UnitTest) mixin
         // that provides SharedResources symbol
 

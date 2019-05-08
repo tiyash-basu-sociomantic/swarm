@@ -38,8 +38,8 @@ import ocean.transition;
 
 public struct GetAll
 {
-    public import integrationtest.neo.common.GetAll;
-    public import integrationtest.neo.client.request.GetAll;
+    import integrationtest.neo.common.GetAll;
+    import integrationtest.neo.client.request.GetAll;
     import integrationtest.neo.common.RequestCodes;
     import integrationtest.neo.client.NotifierTypes;
     import swarm.neo.client.RequestOnConn;

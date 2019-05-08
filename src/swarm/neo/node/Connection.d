@@ -23,7 +23,7 @@ class Connection: ConnectionBase
     import swarm.neo.node.RequestSet;
     import swarm.neo.protocol.connect.NodeConnect;
     import swarm.neo.authentication.HmacDef: Key;
-    public import swarm.neo.connection.YieldedRequestOnConns;
+    import swarm.neo.connection.YieldedRequestOnConns;
 
     import ocean.core.Enforce;
     import ocean.io.select.EpollSelectDispatcher;
